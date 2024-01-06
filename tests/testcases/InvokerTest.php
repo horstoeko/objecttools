@@ -27,8 +27,8 @@ class InvokerTest extends TestCase
         $invoker->callProc('setProperty1', 2);
         $invoker->callProc('setProperty2', "B");
 
-        $this->assertEquals(2, $this->testClassTwo->getProperty1());
-        $this->assertEquals("B", $this->testClassTwo->getProperty2());
+        $this->assertEquals(2, $this->testClassTwo->property1);
+        $this->assertEquals("B", $this->testClassTwo->property2);
     }
 
     public function testCallProcOnNull()
@@ -44,31 +44,31 @@ class InvokerTest extends TestCase
         $invoker = Invoker::factory($this->testClassTwo);
         $invoker->callProc('setProperty3', 2);
 
-        $this->assertEquals(100, $this->testClassTwo->getProperty1());
-        $this->assertEquals("AAA", $this->testClassTwo->getProperty2());
+        $this->assertEquals(100, $this->testClassTwo->property1);
+        $this->assertEquals("AAA", $this->testClassTwo->property2);
     }
 
     public function testCallProcFirst()
     {
         $invoker = Invoker::factory($this->testClassTwo);
 
-        $this->assertEquals(100, $this->testClassTwo->getProperty1());
-        $this->assertEquals("AAA", $this->testClassTwo->getProperty2());
+        $this->assertEquals(100, $this->testClassTwo->property1);
+        $this->assertEquals("AAA", $this->testClassTwo->property2);
 
         $invoker->callProcFirst(['setProperty1', 'setProperty2'], 101);
 
-        $this->assertEquals(101, $this->testClassTwo->getProperty1());
-        $this->assertEquals("AAA", $this->testClassTwo->getProperty2());
+        $this->assertEquals(101, $this->testClassTwo->property1);
+        $this->assertEquals("AAA", $this->testClassTwo->property2);
 
         $invoker->callProcFirst(['unknown', 'setProperty2'], "BBB");
 
-        $this->assertEquals(101, $this->testClassTwo->getProperty1());
-        $this->assertEquals("BBB", $this->testClassTwo->getProperty2());
+        $this->assertEquals(101, $this->testClassTwo->property1);
+        $this->assertEquals("BBB", $this->testClassTwo->property2);
 
         $invoker->callProcFirst(['unknown', 'unknown2'], "XXX");
 
-        $this->assertEquals(101, $this->testClassTwo->getProperty1());
-        $this->assertEquals("BBB", $this->testClassTwo->getProperty2());
+        $this->assertEquals(101, $this->testClassTwo->property1);
+        $this->assertEquals("BBB", $this->testClassTwo->property2);
     }
 
     public function testCallProcFirstOnNull()
@@ -102,5 +102,37 @@ class InvokerTest extends TestCase
         $this->assertEquals("AAA", $invoker->callFunc("getProperty2"));
         $this->assertNull($invoker->callFunc("getProperty3"));
         $this->assertNotNull($invoker->callFunc("getClassProperty1"));
+    }
+
+    public function testCallFuncFirst()
+    {
+        $invoker = Invoker::factory($this->testClassTwo);
+
+        $this->assertEquals(100, $this->testClassTwo->property1);
+        $this->assertEquals("AAA", $this->testClassTwo->property2);
+
+        $this->assertEquals(100, $invoker->callFuncFirst(['getProperty1', 'getProperty2']));
+        $this->assertEquals("AAA", $invoker->callFuncFirst(['unknown', 'getProperty2']));
+        $this->assertNull($invoker->callFuncFirst(['unknown', 'unknown2']));
+    }
+
+    public function testCallFuncFirstOnNull()
+    {
+        $invoker = Invoker::factory(null);
+
+        $this->assertNull($invoker->callFuncFirst(['getProperty1', 'getProperty2']));
+        $this->assertNull($invoker->callFuncFirst(['unknown', 'getProperty2']));
+        $this->assertNull($invoker->callFuncFirst(['unknown', 'unknown2']));
+    }
+
+    public function testCallFuncPath()
+    {
+        $invoker = Invoker::factory($this->testClassTwo);
+
+        $this->assertEquals(100, $invoker->callFuncPath('getProperty1'));
+        $this->assertEquals("AAA", $invoker->callFuncPath('getProperty2'));
+        $this->assertEquals(1, $invoker->callFuncPath('getClassProperty1.getProperty1'));
+        $this->assertNull($invoker->callFuncPath('getClassProperty1.getProperty2'));
+        $this->assertNull($invoker->callFuncPath(''));
     }
 }

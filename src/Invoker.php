@@ -132,7 +132,7 @@ class Invoker
     public function callProcPath(string $path, ...$args): void
     {
         $invoker = $this;
-        $methods = explode(".", $path);
+        $methods = array_filter(explode(".", $path));
 
         foreach ($methods as $index => $method) {
             if ($index == count($methods) - 1) {
@@ -202,7 +202,7 @@ class Invoker
     public function callFuncPath(string $path, ...$args)
     {
         $invoker = $this;
-        $methods = explode(".", $path);
+        $methods = array_filter(explode(".", $path));
 
         foreach ($methods as $index => $method) {
             if ($index == count($methods) - 1) {
@@ -211,5 +211,7 @@ class Invoker
                 $invoker = Invoker::factory($invoker->callFunc($method, ...$args));
             }
         }
+
+        return null;
     }
 }
