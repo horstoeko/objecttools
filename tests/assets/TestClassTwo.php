@@ -4,56 +4,23 @@ namespace horstoeko\objecttools\tests\assets;
 
 class TestClassTwo
 {
-    public $property1;
-    public $property2;
-    public $classProperty1;
+    public $value1 = 0;
 
-    public function __construct($property1, $property2)
+    public $value2 = "";
+
+    public function __construct(int $value1, string $value2)
     {
-        $this->property1 = $property1;
-        $this->property2 = $property2;
-        $this->classProperty1 = new TestClassOne(1);
+        $this->value1 = $value1;
+        $this->value2 = $value2;
     }
 
-    public function getProperty1()
+    public function getValue1(): int
     {
-        return $this->property1;
+        return $this->value1;
     }
 
-    public function getProperty2()
+    public function getValue2(): string
     {
-        return $this->property2;
-    }
-
-    public function getClassProperty1()
-    {
-        return $this->classProperty1;
-    }
-
-    public function setProperty1($newValue)
-    {
-        $this->property1 = $newValue;
-    }
-
-    public function setProperty2($newValue)
-    {
-        $this->property2 = $newValue;
-    }
-
-    public function setAll($newValue1, $newValue2)
-    {
-        $this->setProperty1($newValue1);
-        $this->setProperty2($newValue2);
-    }
-
-    public function getPropertyByIndex($index)
-    {
-        if ($index === 1) {
-            return $this->property1;
-        }
-        if ($index === 2) {
-            return $this->property1;
-        }
-        return null;
+        return $this->value2;
     }
 };

@@ -5,7 +5,7 @@
             <file>../tests/testcases/BasicTest.php</file>
         </testsuite>
         <testsuite name="Invoker">
-            <file>../tests/testcases/InvokerTest.php</file>
+            <file>../tests/testcases/TestInstance.php</file>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
